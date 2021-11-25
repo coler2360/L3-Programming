@@ -67,7 +67,16 @@
     function mainloop() { //The mainloop constantly runs at the interval which has been set under window.onload
 
       
-
+    function colorRect(x, y, w, h, c) { //sets up the colorRect function so that they are able to be drawn in, such as the canvas background and for the loss and win screens
+        canvasContext.fillStyle = c;
+        canvasContext.fillRect(x, y, w, h);
+    } // end of ColorRect funtion
+    
+     function colorText(msg, x, y, c, f) { //Sets up for the colorText function so that text can be used for the health, win screen and loss screen
+        canvasContext.fillStyle = c;
+        canvasContext.fillText(msg, x, y);
+        canvasContext.font = f;
+    } // End of ColorText function
     } 
     
     //End of mainloop function
