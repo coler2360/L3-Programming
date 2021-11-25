@@ -1,0 +1,70 @@
+<!doctype html>
+
+<body>
+    <canvas id="gameCanvas" width="400" height="600"></canvas> <!-- Sets up the canvas size and gives it an id, this is then called back in the window.onload function where the canvas is loaded in-->
+</body>
+
+
+<script>
+    var canvas, cavnasContext;
+
+    window.onload = function() {
+        canvas = document.getElementById('gameCanvas'); /*Loads in the canvas and sets it to 2d, the id of the canvas has been defined above in the html section of code as 'gameCanvas'*/
+        canvasContext = canvas.getContext('2d');
+
+        document.addEventListener('keydown', keyPressed); /*document.addEventListener adds an event to the game, in this case detecting when keys are released or pressed*/
+        document.addEventListener('keyup', keyReleased);
+
+        setInterval(mainloop, 1000 / 50); /*Sets the frame rate of the game*/
+    } // end of window.onload function
+
+    var gameRun = true;
+
+    var shipXpos = 160; //The variablles and constants needed for the ships movement, size, start position and appearace
+    var shipYpos = 500;
+    var shipXspeed = 7;
+    var shipYspeed = 7;
+    var shipColor = 'white';
+    const SHIP_WIDTH = 60;
+    const SHIP_HEIGHT = 70;
+
+    const LEFT_KEY = 65;
+    const RIGHT_KEY = 68;
+    const UP_KEY = 87;
+    const DOWN_KEY = 83;
+    const SPACE_KEY = 32;
+
+    var healthWidth = 100; //The var and const needed for the health bar, sets its width and height
+    const HEALTH_HEIGHT = 10;
+
+
+    var leftKeyPressed = false; //These are boolean vars used for the movement of the ship and firing of the bullets when keys are pushed
+    var rightKeyPressed = false;
+    var upKeyPressed = false;
+    var downKeyPressed = false;
+    var spaceKeyPressed = false;
+
+    var enemies = []; //Sets up the array for the enemies, the number of enemies being made and makes setUp true, this then runs the settingUp function before turning setUp back to false
+    var enemyTotal = 8;
+    var setUp = true;
+
+    var bullets = []; //Sets up the bullets array
+
+    var difficulty = ''; //Will store the difficulty which the user inputs
+
+    var playerImg = new Image(); //Links to the image which is used for the players appearance, this var is used when setting up the player
+    playerImg.src = 'images/ship.png';
+
+    var enemyImg = new Image(); //Links to the image which is used for the enemies appearance, this var is used when setting up the enemies
+    enemyImg.src = 'images/enemy.png';
+
+    var player = new Ship(playerImg, shipXpos, shipYpos, SHIP_WIDTH, SHIP_HEIGHT, shipColor, shipXspeed, shipYspeed); //Makes the players ship, lists var's and consts already defined above, PlayerImg also makes the ship display the image which has been linked above
+
+
+    function mainloop() { //The mainloop constantly runs at the interval which has been set under window.onload
+
+      
+
+    } //End of mainloop function
+
+   
