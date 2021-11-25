@@ -77,11 +77,67 @@
         canvasContext.fillText(msg, x, y);
         canvasContext.font = f;
     } // End of ColorText function
-    } 
     
-    //End of mainloop function
-    
-     function keyPressed(evt) { //Checks for when the user has pressed certain keys, sets the corrosponding variable to true
+     if (gameRun) {
+            colorRect(0, 0, canvas.width, canvas.height, 'black');  //Sets the background colour to the size of the canvas as defined above
+            
+            colorRect(canvas.width - healthWidth - 10, 10, healthWidth, HEALTH_HEIGHT, 'red'); // sets up the colorRect for the healthbar
+            colorText(healthWidth, 20, 20, 'red', '20px Arial'); //Displays the health remaining as text on screen
+            
+            if (setUp) { //Setup is set to true when the game runs, then asks the user to input the difficulty
+
+                while (difficulty != 'easy' && difficulty != 'hard') { //If the difficulty is not equal to 'easy' or 'hard' then the game will continue to prompt the user to input a difficulty, to avoid bugs the characters are set to lowercase
+                    difficulty = prompt('To win, Destroy all the asteroids to protect the planet, the two difficutly settings are either easy or hard', 'easy') || '';
+                    difficulty = difficulty.toLowerCase();
+                }
+
+                settingUp(); //the settingUp function is run before setting setUp back to false
+                setUp = false;
+            } // end of setUp
+
+            if (enemies.length > 0) { //Uses the enemy.js file to draw in the enemy and start the enemy movement
+                enemies.forEach(function(enemy, index) {
+                    enemy.drawEnemyImg();
+                    enemy.enemyMove();
+                });
+            } // end of enemies.length if statement
+
+            if (bullets.length > 0) { //Uses the bullets.js file to draw in the bullets and make the bullets move
+                bullets.forEach(function(bullet, index) {
+                    bullet.drawBullet();
+                    bullet.bulletMove();
+
+                    if (bullet.outOfBounds() || bullet.hasCollided()) { //Deletes the bullets once it has either gone out of bounds or has collided with an enemy
+                        delete bullets[index];
+                    }
+                });
+                bullets = bullets.filter(item => item !== undefined) //Once the object has been deleted in the array it clears the undefined place holder in the array
+            } // end of bullet.length if statement
+            
+            if(enemies.length < 1){ //Will set gameRun to false once the enemies have been eleminated
+                gameRun = false;
+            }
+
+            player.drawShipImg(); //Used so that the ship can constantly move and detect when it has collided with enemies, also draws in the ships image
+            player.shipMovement();
+            player.hasCollided();
+
+        } // End of gameRun
+        
+        else {
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); //Will black out the screen when the gameRun is set to false
+            
+            if (enemies.length < 1){ //Gives a winning message to the player and tells them how much health they had remaining when the enemies are eliminated
+                colorText('You win, you had ' + healthWidth + ' health remaining', 20, 20, 'white', '20px Arial');
+            } 
+            
+        
+        else {
+                colorText('You lose, press restart game', 20, 20, 'white', '20px Arial'); //Gives a losing message to the user when they either get hit by the asteroids, or their health runs out
+            }
+        }
+        
+             function keyPressed(evt) { //Checks for when the user has pressed certain keys, sets the corrosponding variable to true
         if (evt.keyCode == LEFT_KEY) {
             leftKeyPressed = true;
         }
@@ -118,5 +174,24 @@
         } // end of keyReleased function
     }
 
+        
+        
+ function settingUp() { //Ran once the game is started to add enemies into the game, goes until the amount of enemies matches the enemyTotal function
+        for (i = 0; i < enemyTotal; i++) {
+            makeEnemy();
+        }
+    } // End of settingUp function
 
+</script>
+
+
+    
+    }  //End of mainloop function
+    
+
+
+<input type="button" value="Restart Game" onClick="window.location.reload()">
+<!--Makes an hmtl button which reloads the page when pushed, thus restarting the game-->
+
+    
    

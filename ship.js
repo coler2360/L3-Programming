@@ -33,3 +33,40 @@ class Ship {
             this.y += this.ySpeed;
         }
     }
+    
+    
+
+    enemyHit(item) {
+        return (this.x <= (item.x + item.w)
+                && (this.x + this.w) >= item.x)
+                &&
+                (this.y <= (item.y + item.h)
+                && (this.y + this.h) >= item.y); 
+    }
+
+    hasHitEnemy(enemy) {
+        return this.enemyHit(enemy);
+    }
+
+    hasCollided() {
+        var self = this;
+        var collided = false;
+
+        enemies.forEach(function (enemy, i) {
+//            console.log('hit');
+            if (self.hasHitEnemy(enemy)) {
+//                delete enemies[i];
+                if(self.x + self.w > enemy.x && self.x < enemy.x + enemy.w && self.y + self.h > enemy.y && self.y < enemy.y + enemy.h){
+                    gameRun = false;
+                }
+//                console.log('hit');
+                collided = true;
+                
+            }
+        });
+
+//        enemies = enemies.filter(item => item !== undefined);
+        return collided;
+
+    }
+}
